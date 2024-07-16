@@ -14,11 +14,6 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name',50);
-            $table->string('last_name',50);
-            $table->string('dni',8)->unique();
-            $table->date('birthdate')->nullable();
-            $table->string('license',20)->nullable();
-            $table->string('address',100)->nullable();
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
@@ -26,7 +21,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
-            $table->foreignId('typeuser_id')->constrained('typeusers')->onDelete('restrict');
             $table->timestamps();
         });
 

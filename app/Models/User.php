@@ -74,15 +74,4 @@ class User extends Authenticatable
         ];
     }
 
-    public function typeUser(): BelongsTo
-    {
-        return $this->belongsTo(Typeuser::class, 'typeuser_id');
-    }
-
-    public function vehicleOccupants(): HasMany
-    {
-        return $this->hasMany(Vehicleoccupant::class);
-    }
-
-
 }

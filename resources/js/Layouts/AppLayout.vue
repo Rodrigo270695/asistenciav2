@@ -15,10 +15,6 @@ defineProps({
 
 const showingNavigationDropdown = ref(false);
 const showVehicles = ref(JSON.parse(localStorage.getItem('showVehicles')) || false);
-const showUsers = ref(JSON.parse(localStorage.getItem('showUsers')) || false);
-const showRoutes = ref(JSON.parse(localStorage.getItem('showRoutes')) || false);
-const showZones = ref(JSON.parse(localStorage.getItem('showZones')) || false);
-const showMaintenance = ref(JSON.parse(localStorage.getItem('showMaintenance')) || false);
 
 
 const switchToTeam = (team) => {
@@ -42,21 +38,6 @@ watch(showVehicles, (newValue) => {
     localStorage.setItem('showVehicles', JSON.stringify(newValue));
 });
 
-watch(showUsers, (newValue) => {
-    localStorage.setItem('showUsers', JSON.stringify(newValue));
-});
-
-watch(showRoutes, (newValue) => {
-    localStorage.setItem('showRoutes', JSON.stringify(newValue));
-});
-
-watch(showZones, (newValue) => {
-    localStorage.setItem('showZones', JSON.stringify(newValue));
-});
-
-watch(showMaintenance, (newValue) => {
-    localStorage.setItem('showMaintenance', JSON.stringify(newValue));
-});
 
 </script>
 
@@ -209,155 +190,7 @@ watch(showMaintenance, (newValue) => {
                             </div>
                         </NavLink>
                     </li>
-                    <li class="shadow-abajo-2 rounded-lg">
-                        <button
-                            @click="showUsers = !showUsers"
-                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
-                        >
-                            <div class="">
-                                <v-icon
-                                    name="fa-users-cog"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                                <span class="ms-3">Usuarios</span>
-                            </div>
-                            <div class="">
-                                <v-icon
-                                    v-if="!showUsers"
-                                    name="hi-solid-plus-sm"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                                <v-icon
-                                    v-else
-                                    name="hi-minus-sm"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                            </div>
-                        </button>
-                        <div v-if="showUsers" class="flex flex-col">
-                            <NavLink
-                                :href="route('typeusers.index')"
-                                :active="route().current('typeusers.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="md-donutlarge-outlined"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Tipo de Usuario</p>
-                                </div>
-                            </NavLink>
-                            <NavLink
-                                :href="route('users.index')"
-                                :active="route().current('users.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="pr-user-plus"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Usuarios</p>
-                                </div>
-                            </NavLink>
-                        </div>
-                    </li>
-                    <li class="shadow-abajo-2 rounded-lg">
-                        <button
-                            @click="showRoutes = !showRoutes"
-                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
-                        >
-                            <div class="">
-                                <v-icon
-                                    name="ri-route-fill"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                                <span class="ms-3">Rutas</span>
-                            </div>
-                            <div class="">
-                                <v-icon
-                                    v-if="!showRoutes"
-                                    name="hi-solid-plus-sm"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                                <v-icon
-                                    v-else
-                                    name="hi-minus-sm"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                            </div>
-                        </button>
-                        <div v-if="showRoutes" class="flex flex-col">
-                            <NavLink
-                                :href="route('statusroutes.index')"
-                                :active="route().current('statusroutes.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="la-sort-numeric-down-solid"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Estado rutas</p>
-                                </div>
-                            </NavLink>
-                            <NavLink
-                                :href="route('routes.index')"
-                                :active="route().current('routes.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="md-route-sharp"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Rutas</p>
-                                </div>
-                            </NavLink>
-                        </div>
-                    </li>
-                    <li class="shadow-abajo-2 rounded-lg">
-                        <button
-                            @click="showZones = !showZones"
-                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
-                        >
-                            <div class="">
-                                <v-icon
-                                    name="md-place-round"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                                <span class="ms-3">Zonas</span>
-                            </div>
-                            <div class="">
-                                <v-icon
-                                    v-if="!showZones"
-                                    name="hi-solid-plus-sm"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                                <v-icon
-                                    v-else
-                                    name="hi-minus-sm"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                            </div>
-                        </button>
-                        <div v-if="showZones" class="flex flex-col">
-                            <NavLink
-                                :href="route('zones.index')"
-                                :active="route().current('zones.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="ri-find-replace-line"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Zona</p>
-                                </div>
-                            </NavLink>
-                        </div>
-                    </li>
+
                     <li class="shadow-abajo-2 rounded-lg">
                         <button
                             @click="showVehicles = !showVehicles"
@@ -385,8 +218,8 @@ watch(showMaintenance, (newValue) => {
                         </button>
                         <div v-if="showVehicles" class="flex flex-col">
                             <NavLink
-                                :href="route('brands.index')"
-                                :active="route().current('brands.index')"
+                                :href="route('dashboard')"
+                                :active="route().current('dashboard')"
                                 class="rounded-lg"
                             >
                                 <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
@@ -397,115 +230,8 @@ watch(showMaintenance, (newValue) => {
                                     <p class="text-slate-500 ml-3">Marca</p>
                                 </div>
                             </NavLink>
-                            <NavLink
-                                :href="route('brandmodels.index')"
-                                :active="route().current('brandmodels.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="bi-justify-left"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Modelo</p>
-                                </div>
-                            </NavLink>
-                            <NavLink
-                                :href="route('vehicletypes.index')"
-                                :active="route().current('vehicletypes.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="bi-box"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Tipo de Vehículos</p>
-                                </div>
-                            </NavLink>
-                            <NavLink
-                                :href="route('vehiclecolors.index')"
-                                :active="route().current('vehiclecolors.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="md-invertcolors-round"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Colores de Vehículos</p>
-                                </div>
-                            </NavLink>
-                            <NavLink
-                                :href="route('vehicles.index')"
-                                :active="route().current('vehicles.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="gi-mine-truck"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Vehículos</p>
-                                </div>
-                            </NavLink>
+
                         </div>
-                    </li>
-                    <li class="shadow-abajo-2 rounded-lg">
-                        <button
-                            @click="showMaintenance = !showMaintenance"
-                            class="flex cursor-pointer justify-between items-center p-2 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
-                        >
-                            <div class="">
-                                <v-icon
-                                    name="md-domainverification"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                                <span class="ms-3">Mantenimiento</span>
-                            </div>
-                            <div class="">
-                                <v-icon
-                                    v-if="!showMaintenance"
-                                    name="hi-solid-plus-sm"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                                <v-icon
-                                    v-else
-                                    name="hi-minus-sm"
-                                    class="text-slate-500 hover:text-slate-600"
-                                />
-                            </div>
-                        </button>
-                        <div v-if="showMaintenance" class="flex flex-col">
-                            <NavLink
-                                :href="route('maintenances.index')"
-                                :active="route().current('maintenances.index')"
-                                class="rounded-lg"
-                            >
-                                <div class="pl-4 flex p-2 hover:bg-blue-100 w-full">
-                                    <v-icon
-                                        name="bi-layout-wtf"
-                                        class="text-slate-500 hover:text-slate-600 "
-                                    />
-                                    <p class="text-slate-500 ml-3">Gestionar Mantenimientos</p>
-                                </div>
-                            </NavLink>
-                        </div>
-                    </li>
-                    <li class="">
-                        <NavLink
-                            :href="route('vehicleroutes.index')"
-                            :active="route().current('vehicleroutes.index')"
-                            class="flex items-center p-3 text-slate-700 rounded-lg bg-3D-50 hover:bg-blue-100 font-bold group w-full shadow-abajo-1 hover:shadow-abajo-2"
-                        >
-                            <div class="mt-[3px] -mb-[6px] text-lg">
-                                <v-icon
-                                    name="bi-bezier"
-                                    class="text-slate-500 hover:text-slate-600 mx-[6px]"
-                                />
-                                <span class="ms-2">Programación</span>
-                            </div>
-                        </NavLink>
                     </li>
 
                 </ul>

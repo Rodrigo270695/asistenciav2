@@ -7,6 +7,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import VueApexCharts from "vue3-apexcharts";
+import { VTour } from '@globalhive/vuejs-tour';
+import '@globalhive/vuejs-tour/dist/style.css';
 
 import
 {
@@ -48,7 +50,8 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .use(VueApexCharts);
+            .use(VueApexCharts)
+            .use(VTour);
 
         app.component("v-icon", OhVueIcon);
 

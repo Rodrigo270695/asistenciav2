@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'name' => 'LaravelPWA',
+    'name' => 'Macga_Asistencia',
     'manifest' => [
-        'name' => env('APP_NAME', 'My PWA App'),
-        'short_name' => 'PWA',
+        'name' => env('APP_NAME', 'Macga_Asistencia'),
+        'short_name' => 'Macga_Asistencia',
         'start_url' => '/',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',

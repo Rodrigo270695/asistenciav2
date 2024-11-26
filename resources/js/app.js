@@ -6,6 +6,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { OhVueIcon, addIcons } from "oh-vue-icons";
+import VueApexCharts from "vue3-apexcharts";
 
 import
 {
@@ -17,7 +18,10 @@ import
     FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp,
     FaUsersCog, MdDonutlargeOutlined, PrUserPlus, RiRouteFill, MdRouteSharp, LaSortNumericDownSolid, MdInvertcolorsRound, BiBox, BiJustifyLeft,
     BiLayoutWtf, MdPlaceRound, RiFindReplaceLine, GiMineTruck, RiImageAddFill, FaArrowLeft, FaMapMarkerAlt, CoToggleOn, FaToggleOff, HiSolidUserAdd,
-    BiBezier, MdDomainverification, BiCalendarDateFill, MdLocalactivity, MdAdsclick
+    BiBezier, MdDomainverification, BiCalendarDateFill, MdLocalactivity, MdAdsclick, BiBasket3Fill, MdDashboardcustomizeRound, LaProductHunt, BiBorderOuter,
+    MdCategoryOutlined, BiBoxSeam, MdStoreOutlined, BiListTask, MdArrowbackiosRound, RiBarcodeLine, FaStoreAlt, MdPlaceOutlined, FaUserAlt, LaUserPlusSolid,
+    FaCheckDouble, RiCheckboxLine, MdCancelpresentationSharp, HiSolidDocumentReport, GiShieldOpposition, SiReason, BiClock, CoClockify, FaDownload,
+    IoReloadSharp, MdFullscreen, MdFullscreenexit, BiCheck, BiX, RiArrowDropDownLine, MdPlace, RiUserFill
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -29,7 +33,10 @@ GiHamburgerMenu, MdMonitorTwotone, HiSolidPlusSm, HiMinusSm, BiArrowLeftShort, A
 FaBars, FaTimes, FaUserCircle, FaAngleDown, FaCog, FaSignOutAlt, IoDesktop, IoClose, IoChevronDown, FaMinus, OiApps, IoCarSportSharp,
 FaUsersCog, MdDonutlargeOutlined, PrUserPlus, RiRouteFill, MdRouteSharp, LaSortNumericDownSolid, MdInvertcolorsRound, BiBox, BiJustifyLeft,
 BiLayoutWtf, MdPlaceRound, RiFindReplaceLine, GiMineTruck, RiImageAddFill, FaArrowLeft, FaMapMarkerAlt, CoToggleOn, FaToggleOff, HiSolidUserAdd,
-BiBezier, MdDomainverification, BiCalendarDateFill, MdLocalactivity, MdAdsclick
+BiBezier, MdDomainverification, BiCalendarDateFill, MdLocalactivity, MdAdsclick, BiBasket3Fill, MdDashboardcustomizeRound, LaProductHunt, BiBorderOuter,
+MdCategoryOutlined, BiBoxSeam, MdStoreOutlined, BiListTask, MdArrowbackiosRound, RiBarcodeLine, FaStoreAlt, MdPlaceOutlined, FaUserAlt, LaUserPlusSolid,
+FaCheckDouble, RiCheckboxLine, MdCancelpresentationSharp, HiSolidDocumentReport, GiShieldOpposition, SiReason, BiClock, CoClockify, FaDownload,
+IoReloadSharp, MdFullscreen, MdFullscreenexit, BiCheck, BiX, RiArrowDropDownLine, MdPlace, RiUserFill
 );
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
@@ -40,7 +47,8 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(ZiggyVue);
+            .use(ZiggyVue)
+            .use(VueApexCharts);
 
         app.component("v-icon", OhVueIcon);
 

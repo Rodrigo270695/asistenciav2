@@ -13,6 +13,9 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laraveles/spanish": "^1.5",
+        "maatwebsite/excel": "^3.1",
+        "picqer/php-barcode-generator": "^3.2",
+        "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-permission": "^6.4",
         "tightenco/ziggy": "^2.0"
     },

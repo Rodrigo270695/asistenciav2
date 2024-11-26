@@ -38,6 +38,7 @@ class User extends Authenticatable
         'phone',
         'email',
         'password',
+        'pdv_id',
     ];
 
     /**
@@ -72,6 +73,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function pdv(): BelongsTo
+    {
+        return $this->belongsTo(Pdv::class);
     }
 
 }

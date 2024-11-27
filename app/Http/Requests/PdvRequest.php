@@ -17,7 +17,16 @@ class PdvRequest extends FormRequest
     {
         return [
             'unit' => ['required', 'in:Distribuidora,Franquicia,DAM'],
-            'spot' => ['required', 'string', 'max:30', 'min:1', Rule::unique('pdvs')->ignore($this->pdv)],
+            'spot' => [
+                'required',
+                'string',
+                'max:30',
+                'min:1',
+                Rule::unique('pdvs')->where(function ($query) {
+                    return $query->where('unit', $this->unit)
+                        ->where('zonal_id', $this->zonal_id);
+                })
+            ],
             'zonal_id' => ['required', 'exists:zonals,id'],
             'address' => ['nullable', 'string', 'max:255'],
         ];

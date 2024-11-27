@@ -1,6 +1,14 @@
 var staticCacheName = "pwa-v" + new Date().getTime();
 var filesToCache = [
-    '/',
+    '/offline',
+    '/images/icons/icon-72x72.png',
+    '/images/icons/icon-96x96.png',
+    '/images/icons/icon-128x128.png',
+    '/images/icons/icon-144x144.png',
+    '/images/icons/icon-152x152.png',
+    '/images/icons/icon-192x192.png',
+    '/images/icons/icon-384x384.png',
+    '/images/icons/icon-512x512.png',
 ];
 
 // Cache on install
@@ -9,9 +17,22 @@ self.addEventListener("install", event => {
     event.waitUntil(
         caches.open(staticCacheName)
             .then(cache => {
-                return cache.addAll(filesToCache);
+                return Promise.all(
+                    filesToCache.map(url => {
+                        return fetch(url, { redirect: 'follow' })
+                            .then(response => {
+                                if (response.ok) {
+                                    return cache.put(url, response);
+                                }
+                                throw new Error('Redirection or fetch failed for ' + url);
+                            })
+                            .catch(error => {
+                                console.error('Error caching ' + url + ':', error);
+                            });
+                    })
+                );
             })
-    )
+    );
 });
 
 // Clear cache on activate

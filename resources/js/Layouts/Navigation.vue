@@ -105,7 +105,7 @@ const onTourStop = () => {
                             ></path>
                         </svg>
                     </button>
-                    <VTour :steps="steps" autoStart saveToLocalStorage='step'/>
+                    <VTour :steps="steps" autoStart saveToLocalStorage='step' />
                     <Link id="dashboard-link" :href="route('dashboard')" class="flex ms-2 md:me-24">
                         <ApplicationMark class="block h-9 w-auto" />
                     </Link>

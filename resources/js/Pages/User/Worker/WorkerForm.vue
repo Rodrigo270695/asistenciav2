@@ -10,7 +10,7 @@ import { defineProps, defineEmits } from "vue";
 const props = defineProps({
     worker: Object,
     pdvs: Array,
-    charges: Array,
+    charges: Array, 
 });
 
 const form = useForm({

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pdvs', function (Blueprint $table) {
             $table->id();
             $table->enum('unit', ['Distribuidora','Franquicia','DAM']);
-            $table->string('spot',30)->unique();
+            $table->string('spot',30);
             $table->string('address',255)->nullable();
             $table->boolean('status')->default(true);
             $table->foreignId('zonal_id')->constrained('zonals')->onDelete('restrict');

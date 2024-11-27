@@ -88,6 +88,6 @@ class WorkerController extends Controller
         $pdvs = Pdv::with('zonal')->where('status', true)->orderBy('spot', 'asc')->get();
         $charges = Charge::where('status', true)->orderBy('name', 'asc')->get();
 
-        return Inertia::render('User/Worker/Index', compact('workers', 'texto', 'pdvs'));
+        return Inertia::render('User/Worker/Index', compact('workers', 'texto', 'pdvs', 'charges'));
     }
 }

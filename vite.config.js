@@ -17,8 +17,14 @@ export default defineConfig({
             },
         }),
     ],
+    optimizeDeps: {
+        include: ['@globalhive/vuejs-tour'],
+    },
     server: {
-        host: '127.0.0.1',
-        port: 5173, 
+        host: '0.0.0.0',
+        port: 5173,
+        hmr: {
+            host: 'localhost',
+        },
     },
 });

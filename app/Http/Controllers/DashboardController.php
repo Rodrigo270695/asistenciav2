@@ -13,29 +13,54 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-        $fechaActual = now()->setTimezone('America/Lima')->format('Y-m-d');
-        $fechaAyer = now()->setTimezone('America/Lima')->subDay()->format('Y-m-d');
+        try {
+            $user = auth()->user();
+            
+            // Verificar que el usuario tenga roles asignados
+            if (!$user || !method_exists($user, 'hasRole')) {
+                return inertia('Errors/403');
+            }
+            
+            $fechaActual = now()->setTimezone('America/Lima')->format('Y-m-d');
+            $fechaAyer = now()->setTimezone('America/Lima')->subDay()->format('Y-m-d');
 
-        if ($user->hasRole('administrador') || $user->hasRole('visualizador')) {
-            $assists = Assist::where('current_date', $fechaActual)->count();
-            $workers = Worker::count();
-        } else {
-            $pdvId = $user->pdv_id;
-            $assists = Assist::whereHas('worker.pdv', function ($query) use ($pdvId) {
-                $query->where('id', $pdvId);
-            })->where('current_date', $fechaActual)->count();
-            $workers = Worker::whereHas('pdv', function ($query) use ($pdvId) {
-                $query->where('id', $pdvId);
-            })->count();
-        }
+            if ($user->hasRole('administrador') || $user->hasRole('visualizador')) {
+                $assists = Assist::where('current_date', $fechaActual)->count();
+                $workers = Worker::count();
+            } else {
+                $pdvId = $user->pdv_id;
+                
+                // Validar que el usuario tenga pdv_id asignado
+                if (!$pdvId) {
+                    $assists = 0;
+                    $workers = 0;
+                } else {
+                    $assists = Assist::whereHas('worker.pdv', function ($query) use ($pdvId) {
+                        $query->where('id', $pdvId);
+                    })->where('current_date', $fechaActual)->count();
+                    $workers = Worker::whereHas('pdv', function ($query) use ($pdvId) {
+                        $query->where('id', $pdvId);
+                    })->count();
+                }
+            }
 
         $zonalsData = Zonal::with(['pdvs.workers.assists' => function ($query) use ($fechaActual) {
             $query->where('current_date', $fechaActual);
         }])->get()->map(function ($zonal) {
+            if (!$zonal->pdvs) {
+                return [
+                    'zonal_id' => $zonal->id,
+                    'zonal_name' => $zonal->name,
+                    'assists_count' => 0,
+                ];
+            }
+            
             $count = $zonal->pdvs->reduce(function ($carry, $pdv) {
+                if (!$pdv->workers) {
+                    return $carry;
+                }
                 return $carry + $pdv->workers->reduce(function ($carry, $worker) {
-                    return $carry + $worker->assists->count();
+                    return $carry + ($worker->assists ? $worker->assists->count() : 0);
                 }, 0);
             }, 0);
 
@@ -49,9 +74,20 @@ class DashboardController extends Controller
         $zonalsDataAyer = Zonal::with(['pdvs.workers.assists' => function ($query) use ($fechaAyer) {
             $query->where('current_date', $fechaAyer);
         }])->get()->map(function ($zonal) {
+            if (!$zonal->pdvs) {
+                return [
+                    'zonal_id' => $zonal->id,
+                    'zonal_name' => $zonal->name,
+                    'assists_count' => 0,
+                ];
+            }
+            
             $count = $zonal->pdvs->reduce(function ($carry, $pdv) {
+                if (!$pdv->workers) {
+                    return $carry;
+                }
                 return $carry + $pdv->workers->reduce(function ($carry, $worker) {
-                    return $carry + $worker->assists->count();
+                    return $carry + ($worker->assists ? $worker->assists->count() : 0);
                 }, 0);
             }, 0);
 
@@ -72,9 +108,20 @@ class DashboardController extends Controller
                         ->orWhere('end_date', '>=', $fechaActual);
                 });
         }])->get()->map(function ($zonal) {
+            if (!$zonal->pdvs) {
+                return [
+                    'zonal_id' => $zonal->id,
+                    'zonal_name' => $zonal->name,
+                    'absences_count' => 0,
+                ];
+            }
+            
             $count = $zonal->pdvs->reduce(function ($carry, $pdv) {
+                if (!$pdv->workers) {
+                    return $carry;
+                }
                 return $carry + $pdv->workers->reduce(function ($carry, $worker) {
-                    return $carry + $worker->absences->count();
+                    return $carry + ($worker->absences ? $worker->absences->count() : 0);
                 }, 0);
             }, 0);
 
@@ -106,5 +153,18 @@ class DashboardController extends Controller
             });
 
         return inertia('Dashboard', compact('assists', 'workers', 'pdvs', 'zonals', 'zonalsData', 'zonalsDataAyer', 'absencesData', 'asistenciasPorEstado', 'inasistenciasPorEstado'));
+        
+        } catch (\Exception $e) {
+            // Log del error para debug en producción
+            \Log::error('Dashboard Error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'user_id' => auth()->id(),
+            ]);
+            
+            // Retornar error 500 con información útil
+            return inertia('Errors/500', [
+                'message' => config('app.debug') ? $e->getMessage() : 'Error al cargar el dashboard',
+            ]);
+        }
     }
 }

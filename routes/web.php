@@ -35,19 +35,6 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        if (auth()->user()->hasRole('asistencia')) {
-            return redirect('/assist');
-        }
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-});
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
 
     //zonales
     Route::get('/zonal/export', [ZonalController::class, 'export'])->name('zonal.export');
